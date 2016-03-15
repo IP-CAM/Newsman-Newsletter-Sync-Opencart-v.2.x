@@ -13,13 +13,13 @@ Manual installation:
 
 #Setup
 1. Fill in your Newsman API KEY and User ID and click connect
-![](https://raw.githubusercontent.com/Newsman/OpenCart2-Newsman/master/assets/api-setup-screen-opencart.png)
+![](https://raw.githubusercontent.com/Newsman/OpenCart2-Newsman/master/assets/api-setup-screen-opencart2.png)
 
 2. Choose destination segments for your newsletter subscribers and customer groups
 All your groups will be listed and you can select the Newsman Segment to map to.
 You can also choose to ignore the group or to upload the group members but include them in any segment.
 For the segments to show up in this form, you need to set them up in your Newsman account first.
-![](https://raw.githubusercontent.com/Newsman/OpenCart2-Newsman/master/assets/mapping-screen-opencart.png)
+![](https://raw.githubusercontent.com/Newsman/OpenCart2-Newsman/master/assets/mapping-screen-opencart2.png)
 
 For the automatic synchronization to work, you must setup a webcron to run this URL:
 `http://yourshop/index.php?route=module/newsman_import`
