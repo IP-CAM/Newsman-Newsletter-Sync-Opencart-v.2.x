@@ -128,9 +128,15 @@ class ControllerModuleNewsmanImport extends Controller
 			if ($this->request->post['step'] == "2")
 			{
 				$settings = (array)$this->model_setting_setting->getSetting($this->_name);
+
 				$settings['list_id'] = $this->request->post['list'];
 				$settings['api_key'] = $this->request->post['api_key'];
 				$settings['user_id'] = $this->request->post['user_id'];
+
+				if (!array_key_exists("syncFlag", $settings))
+				{
+					$settings['syncFlag'] = false;
+				}
 
 				$this->insertSetting($this->_name, $settings);
 
@@ -151,7 +157,11 @@ class ControllerModuleNewsmanImport extends Controller
 					}
 					if ($this->request->post['sync'] == 1)
 					{
+						$settings["syncFlag"] = true;
 						$this->session->data['sync'] = 1;
+					} else
+					{
+						$settings["syncFlag"] = false;
 					}
 					if (!isset($settings['last_data_time']))
 					{
@@ -178,11 +188,6 @@ class ControllerModuleNewsmanImport extends Controller
 		if (isset($this->session->data['sync']) && $this->session->data['sync'] == 1)
 		{
 			$data['queries'] = $this->get_queries($data['settings']);
-			/*
-			var_dump($data['queries']);
-			die(" QUERIES ");
-			*/
-
 			unset($this->session->data['sync']);
 		}
 

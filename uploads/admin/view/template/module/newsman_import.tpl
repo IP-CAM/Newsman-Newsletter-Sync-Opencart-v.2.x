@@ -40,7 +40,6 @@
 
 				<div class="box">
 					<div class="heading">
-
 						<div class="buttons">
 							<?php if($step == 1) { ?><a onclick="try_submit();" class="btn btn-default"><span><?php echo $button_save; ?></span></a><?php } ?>
 							<a onclick="location = '<?php echo $back; ?>';" class="btn btn-default"><span><?php echo $button_back; ?></span></a>
@@ -97,6 +96,14 @@
 									</div>
 								</div>
 								<?php } else if ($step == 2) { ?>
+								<?php if($settings['syncFlag']) { $settings['syncFlag'] = false; ?>
+								<div>
+									<div class="alert alert-success"><i class="fa fa-check-circle"></i>
+										Customers have been imported successfully.
+										<button type="button" class="close" data-dismiss="alert">×</button>
+									</div>
+								</div>
+								<?php } else { $settings['syncFlag'] = false; } ?>
 								<div>
 									<input class="form-control" type="hidden" value="1" name="step">
 									<input class="form-control" type="radio" onclick="importTypeChange(this);" id="import_list" name="import_type" value="1" <?php echo isset($settings['import_type']) && $settings['import_type']==1 ?'checked':''; ?>><label for="import_list"><?php echo $text_import_list; ?></label><br>
