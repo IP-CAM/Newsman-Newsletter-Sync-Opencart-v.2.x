@@ -33,10 +33,10 @@ class ModelModuleNewsmanImport extends Model
 			{
 				if ($data['import_type'] == 1)
 				{
-					$query = $this->db->query("SELECT COUNT(email) AS number FROM " . DB_PREFIX . "customer WHERE status = 1 AND approved = 1");
+					$query = $this->db->query("SELECT COUNT(email) AS number FROM " . DB_PREFIX . "customer WHERE status = 1 AND approved = 1 AND newsletter = 1");
 					$rounds = ceil(intval($query->row['number']) / 10000);
 					for ($i = 0; $i < $rounds; $i++)
-						$queries[] = array('segment' => 0, 'query' => "SELECT email FROM " . DB_PREFIX . "customer WHERE status = 1 AND approved = 1 ORDER BY customer_id ASC LIMIT " . ($i * 10000) . ", 10000");
+						$queries[] = array('segment' => 0, 'query' => "SELECT email FROM " . DB_PREFIX . "customer WHERE status = 1 AND approved = 1 AND newsletter = 1 ORDER BY customer_id ASC LIMIT " . ($i * 10000) . ", 10000");
 				} else
 				{
 					if ($data['import_type'] == 2)
@@ -48,10 +48,10 @@ class ModelModuleNewsmanImport extends Model
 							{
 								if ($cg != "'0'")
 								{
-									$query = $this->db->query("SELECT COUNT(email) AS number FROM " . DB_PREFIX . "customer WHERE status = 1 AND approved = 1 AND customer_group_id = " . $cg);
+									$query = $this->db->query("SELECT COUNT(email) AS number FROM " . DB_PREFIX . "customer WHERE status = 1 AND approved = 1 AND newsletter = 1 AND customer_group_id = " . $cg);
 									$rounds = ceil(intval($query->row['number']) / 10000);
 									for ($i = 0; $i < $rounds; $i++)
-										$queries[] = array('segment' => $seg, 'query' => "SELECT email, firstname, lastname FROM " . DB_PREFIX . "customer WHERE status = 1 AND approved = 1 AND customer_group_id = " . $cg . " ORDER BY customer_id ASC LIMIT " . ($i * 10000) . ", 10000");
+										$queries[] = array('segment' => $seg, 'query' => "SELECT email, firstname, lastname FROM " . DB_PREFIX . "customer WHERE status = 1 AND approved = 1 AND newsletter = 1 AND customer_group_id = " . $cg . " ORDER BY customer_id ASC LIMIT " . ($i * 10000) . ", 10000");
 								} else
 								{
 									$query = $this->db->query("SELECT COUNT(email) AS number FROM " . DB_PREFIX . "customer WHERE status = 1 AND approved = 1 AND newsletter = 1");
@@ -82,9 +82,9 @@ class ModelModuleNewsmanImport extends Model
 		require_once("../lib/Newsman/Client.php");
 		$client = new Newsman_Client($user_id, $api_key);
 		$csvdata = $this->db->query($query->query);
-		$csv = "email,firstname,lastname" . PHP_EOL;
+		$csv = "email,firstname,lastname,source" . PHP_EOL;
 		foreach ($csvdata->rows as $row)
-			$csv .= $row['email'] . "," . $row['firstname'] . "," . $row['lastname'] . PHP_EOL;
+			$csv .= $row['email'] . "," . $row['firstname'] . "," . $row['lastname'] . "," . "opencart customer newsletter" . PHP_EOL;
 		if ($query->segment == '0')
 		{
 			$client->import->csv($list_id, '', $csv);

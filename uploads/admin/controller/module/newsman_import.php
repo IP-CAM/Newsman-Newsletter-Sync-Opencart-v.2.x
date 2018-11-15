@@ -185,10 +185,14 @@ class ControllerModuleNewsmanImport extends Controller
 		}
 
 		$data['settings'] = (array)$this->model_setting_setting->getSetting($this->_name);
-		if (isset($this->session->data['sync']) && $this->session->data['sync'] == 1)
+	
+		if (isset($this->session->data['sync']))
 		{
-			$data['queries'] = $this->get_queries($data['settings']);
-			unset($this->session->data['sync']);
+			if($this->session->data['sync'] == 1 || $this->session->data['sync'] == 2)
+			{
+				$data['queries'] = $this->get_queries($data['settings']);
+				unset($this->session->data['sync']);
+			}
 		}
 
 		$data['action'] = $this->url->link('module/' . $this->_name, 'token=' . $this->session->data['token'], 'SSL');

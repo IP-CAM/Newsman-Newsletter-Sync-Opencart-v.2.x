@@ -134,8 +134,7 @@
 									<input class="form-control" type="hidden" value="0" name="reset" id="reset"><br><br>
 									<a onclick="document.getElementById('reset').value = '1'; document.getElementById('import_list').checked = true; try_submit();"
 									   class="btn btn-default"><span><?php echo $button_reset; ?></span></a><br>
-									<p><?php echo $text_autosync; ?><br><a href="#">http://<?php echo $_SERVER['SERVER_NAME']; ?>
-											/index.php?route=module/newsman_import</a></p>
+									<p><?php echo $text_autosync; ?><br><a href="#">http://<?php echo $_SERVER['SERVER_NAME']; ?>/index.php?route=module/newsman_import</a></p>
 								</div>
 								<?php } ?>
 							</div>
@@ -205,7 +204,10 @@
 		var step=2;
 		var segments_loaded = 0;
 		function sync() {
-			document.getElementById('sync').value = 1;
+			var syncc = $('input[name=import_type]:checked').val();
+
+			document.getElementById('sync').value = syncc;
+
 			var trs = document.getElementById('cgtable').getElementsByTagName('TBODY')[0].children;
 			var cg = {};
 			var i;
