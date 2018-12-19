@@ -159,7 +159,11 @@ class ControllerModuleNewsmanImport extends Controller
 					{
 						$settings["syncFlag"] = true;
 						$this->session->data['sync'] = 1;
-					} else
+					}
+					elseif($this->request->post['sync'] == 2){
+						$this->session->data['sync'] = 2;
+					}
+					else
 					{
 						$settings["syncFlag"] = false;
 					}
