@@ -11,6 +11,16 @@ Manual installation:
 3.  Go to admin->Extensions->Modules and then install Newsman Newsletter Sync module
 4.  After installation edit the Newsman Newsletter Sync module
 
+# Newsman Remarketing
+
+1. Extensions -> Installer -> Upload newsmanremarketing.ocmod.zip
+2. Extensions -> Modifications -> Refresh
+3. Extensions -> Analytics -> Newsman Remarketing
+
+Fill in your Remarketing ID from Newsman account. Settings -> Remarketing.
+Select enable and save.
+
+
 #Setup
 1. Fill in your Newsman API KEY and User ID and click connect
 ![](https://raw.githubusercontent.com/Newsman/OpenCart2-Newsman/master/assets/api-setup-screen-opencart2.png)
