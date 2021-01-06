@@ -4,7 +4,7 @@
 This is the easiest way to connect your Shop with [Newsman](https://www.newsmanapp.com).
 Generate an API KEY in your [Newsman](https://www.newsmanapp.com) account, install this plugin and you will be able to sync your shop customers and newsletter subscribers with Newsman list / segments.
 
-#Installation
+# Installation
 Manual installation:
 1.  Copy contents of the uploads folder and paste to your opencart root directory
 2.	Give priveleges to your user in admin->System->Users->User Groups
@@ -21,7 +21,7 @@ Fill in your Remarketing ID from Newsman account. Settings -> Remarketing.
 Select enable and save.
 
 
-#Setup
+# Setup
 1. Fill in your Newsman API KEY and User ID and click connect
 ![](https://raw.githubusercontent.com/Newsman/OpenCart2-Newsman/master/assets/api-setup-screen-opencart2.png)
 
