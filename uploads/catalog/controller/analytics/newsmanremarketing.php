@@ -352,7 +352,7 @@ TAG;
 			$tag = <<<TAG
 
 					<script>
-				var _nzm = _nzm || []; var _nzm_config = _nzm_config || []; _nzm_tracking_server = '$endpointHost';
+				var _nzm = _nzm || []; var _nzm_config = _nzm_config || []; _nzm_config['disable_datalayer']=1; _nzm_tracking_server = '$endpointHost';
         (function() {var a, methods, i;a = function(f) {return function() {_nzm.push([f].concat(Array.prototype.slice.call(arguments, 0)));
         }};methods = ['identify', 'track', 'run'];for(i = 0; i < methods.length; i++) {_nzm[methods[i]] = a(methods[i])};
         s = document.getElementsByTagName('script')[0];var script_dom = document.createElement('script');script_dom.async = true;
