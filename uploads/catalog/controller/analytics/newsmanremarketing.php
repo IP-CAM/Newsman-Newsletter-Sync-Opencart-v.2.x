@@ -156,7 +156,7 @@ TAG;
 					}
 
 					$tag .= "
-					<script>
+<script>
  _nzm.run('ec:addProduct', {
                     'id': " . $oc_product['product_id'] . ",
                     'name': '" . $oc_product['name'] . "',
@@ -165,21 +165,44 @@ TAG;
                     list: 'Product Page'});_nzm.run('ec:setAction', 'detail');
 
 $(document).ready(function(){
-                                 $('#button-cart').click(function(){
- _nzm.run('ec:addProduct', {
-                    'id': " . $oc_product['product_id'] . ",
-                    'name': '" . $oc_product['name'] . "',
-                    'category': '" . $oc_category['path'] . "',
-                    price: " . $oc_product['price'] . ",
-                    quantity: $('#input-quantity').val()
-                    });
+				$('#button-cart').click(function(){								
 
-                    _nzm.run('ec:setAction', 'add');
-                    _nzm.run('send', 'event', 'UX', 'click', 'add to cart');
+var variationBool = false;
+var variationCount = false;								
 
-                    });
-                    });
-                 </script>
+$('#product .required input[type=radio]').each(function(element, item) {
+
+	variationCount = true;
+
+	if($(this).is(':checked'))
+	{
+		variationBool = true;
+	}
+
+});
+
+	if(variationCount == true)
+	{
+		if(variationBool == false)
+		{		
+			return;
+		}		
+	}
+
+			_nzm.run('ec:addProduct', {
+				'id': " . $oc_product['product_id'] . ",
+				'name': '" . $oc_product['name'] . "',
+				'category': '" . $oc_category['path'] . "',
+				price: " . $oc_product['price'] . ",
+				quantity: $('#input-quantity').val()
+			});
+
+			_nzm.run('ec:setAction', 'add');
+			_nzm.run('send', 'event', 'UX', 'click', 'add to cart');
+
+			});
+});
+</script>
                  ";
 					break;
 
@@ -284,7 +307,7 @@ $(document).ready(function(){
 
 						$tag .= "
 					<script>
- _nzm.run('ec:addImpression', {
+ 					_nzm.run('ec:addImpression', {
                     'id': " . $item['product_id'] . ",
                     'name': '" . $item['name'] . "',
                     'category': '" . $oc_category['path'] . "',
@@ -313,6 +336,7 @@ TAG;
 		else
 		{
 			$purchase_event = null;
+			$products_event = null;
 			$email = "";
 			$firstname = ""; 
 			$lastname = "";
@@ -332,6 +356,17 @@ TAG;
 				{
 					foreach ($this->session->data['ga_orderProducts'] as $product)
 						array_push($ob_products, $this->getProduct($order_id, $product));
+				}
+				
+				foreach($ob_products as $item){
+					$products_event .= 
+						"_nzm.run( 'ec:addProduct', {" .
+							"'id': '" . $item["id"] . "'," . 
+							"'name': '" . $item["name"] . "'," . 
+							"'category': '" . $item["category"] . "'," . 
+							"'price': '" . $item["price"] . "'," . 
+							"'quantity': '" . $item["quantity"] . "'," . 
+						"} );";
 				}
 
 				$email = $orderDetails["email"];
@@ -364,6 +399,7 @@ TAG;
 
 			$tag .= <<<TAG
 _nzm.identify({ email: '$email', first_name: '$firstname', last_name: '$lastname' }); 
+$products_event
 _nzm.run('ec:setAction', 'purchase', $purchase_event);
 _nzm.run('send', 'pageview');
 			</script>
