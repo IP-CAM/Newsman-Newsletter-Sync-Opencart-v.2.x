@@ -20,9 +20,25 @@ class ControllerModuleNewsmanImport extends Controller
 
         $cron = (empty($_GET["cron"]) ? "" : $_GET["cron"]);
         if (!empty($_GET["cron"])) {
+
+            $apikey = (empty($_GET["apikey"])) ? "" : $_GET["apikey"]; 
+
+            if ($apikey != $_apikey) {
+                $this->response->addHeader('Content-Type: application/json');
+                $this->response->setOutput(json_encode("403"));
+                return;
+            }
+
             if ($this->model_module_newsman_import->import_to_newsman())
+            {
                 $this->db->query("UPDATE " . DB_PREFIX . "setting SET value='" . date("Y-m-d H:i:s") . "' WHERE `code` = 'newsman_import' AND `key` = 'last_data_time'");
-            echo "CRON";
+                echo "Sync success";
+            }
+            else{
+                $this->response->addHeader('Content-Type: application/json');
+                $this->response->setOutput(json_encode("403 - sync unsuccessful, an error occurred or 1 hour didn't pass since last cron sync"));
+                return;
+            }
         } else {
             $this->newsmanFetchData($_apikey);
         }
@@ -32,9 +48,12 @@ class ControllerModuleNewsmanImport extends Controller
     {
         $apikey = (empty($_GET["apikey"])) ? "" : $_GET["apikey"];
         $newsman = (empty($_GET["newsman"])) ? "" : $_GET["newsman"];
+        $productId = (empty($_GET["product_id"])) ? "" : $_GET["product_id"];
+        $orderId = (empty($_GET["order_id"])) ? "" : $_GET["order_id"];
+        $start = (!empty($_GET["start"]) && $_GET["start"] >= 0) ? $_GET["start"] : 1;
+        $limit = (empty($_GET["limit"])) ? 1000 : $_GET["limit"];
 
-        if (!empty($newsman) && !empty($apikey)) {
-            $apikey = $_GET["apikey"];
+        if (!empty($newsman) && !empty($apikey)) {     
             $currApiKey = $_apikey;
 
             if ($apikey != $currApiKey) {
@@ -48,27 +67,54 @@ class ControllerModuleNewsmanImport extends Controller
 
                     $ordersObj = array();
 
+                    $this->load->model('catalog/product');
                     $this->load->model('account/order');
-                    $orders = $this->model_account_order->getOrders();
+                    
+                    $orders = $this->model_account_order->getOrders(array("start" => $start, "limit" => $limit));
+
+                    if(!empty($orderId))
+                    {
+                        $orders = $this->model_account_order->getOrder($orderId);                        
+                        $orders = array(
+                            $orders
+                        );
+                    }        
 
                     foreach ($orders as $item) {
 
                         $products = $this->model_account_order->getOrderProducts($item["order_id"]);
                         $productsJson = array();
 
-                        foreach ($products as $prod) {
+                        foreach ($products as $prodOrder) {
+
+                            $prod = $this->model_catalog_product->getProduct($prodOrder["product_id"]);
+
+                            $image = "";
+
+                            if(!empty($prod["image"]))
+                            {
+                                $image = explode(".", $prod["image"]);
+                                $image = $image[1];  
+                                $image = str_replace("." . $image, "-500x500" . '.' . $image, $prod["image"]);    
+                                $image = 'https://' . $_SERVER['SERVER_NAME'] . '/image/cache/' . $image;                                
+                            }
 
                             $productsJson[] = array(
-                                "id" => $prod['product_id'],
-                                "name" => $prod['name'],
-                                "quantity" => $prod['quantity'],
-                                "price" => $prod['price']
+                                "id" => $prodOrder['product_id'],
+                                "name" => $prodOrder['name'],
+                                "quantity" => $prodOrder['quantity'],
+                                "price" => $prodOrder['price'],
+                                "price_old" => (empty($prodOrder["special"]) ? "" : $prodOrder["special"]),
+                                "image_url" => $image,
+                                "url" => 'https://' . $_SERVER['SERVER_NAME'] . '/index.php?route=product/product&product_id=' . $prodOrder["product_id"]
                             );
                         }
 
                         $ordersObj[] = array(
                             "order_no" => $item["order_id"],
-                            "lastname" => $item["firstname"],
+                            "date" => "",
+                            "status" => "",
+                            "lastname" => $item["lastname"],
                             "firstname" => $item["firstname"],
                             "email" => "",
                             "phone" => "",
@@ -94,15 +140,43 @@ class ControllerModuleNewsmanImport extends Controller
                 case "products.json":
 
                     $this->load->model('catalog/product');
-                    $products = $this->model_catalog_product->getProducts();
+                    $products = $this->model_catalog_product->getProducts(array("start" => $start, "limit" => $limit));
+
                     $productsJson = array();
 
+                    if(!empty($productId))
+                    {
+                        $products = $this->model_catalog_product->getProduct($productId);
+                        $products = array(
+                            $products
+                        );
+                    }
+
                     foreach ($products as $prod) {
-                        $productsJson[] = array(
+
+                        $image = "";
+
+                        //price old special becomes price
+                        $price = (!empty($prod["special"])) ? $prod["special"] : $prod["price"];
+                        //price becomes price old
+                        $priceOld = (!empty($prod["special"])) ? $prod["price"] : "";
+
+                        if(!empty($prod["image"]))
+                        {
+                            $image = explode(".", $prod["image"]);
+                            $image = $image[1];  
+                            $image = str_replace("." . $image, "-500x500" . '.' . $image, $prod["image"]);    
+                            $image = 'https://' . $_SERVER['SERVER_NAME'] . '/image/cache/' . $image;                                
+                        }
+
+                        $productsJson[] = array(             
                             "id" => $prod["product_id"],
-                            "name" => $prod["model"],
+                            "name" => $prod["name"],
                             "stock_quantity" => $prod["quantity"],
-                            "price" => $prod["price"]
+                            "price" => $price,
+                            "price_old" => $priceOld,
+                            "image_url" => $image,
+                            "url" => 'https://' . $_SERVER['SERVER_NAME'] . '/index.php?route=product/product&product_id=' . $prod["product_id"]
                         );
                     }
 
@@ -114,7 +188,7 @@ class ControllerModuleNewsmanImport extends Controller
 
                 case "customers.json":
 
-                    $wp_cust = $this->getCustomers();
+                    $wp_cust = $this->getCustomers(array("start" => $start, "limit" => $limit));
 
                     $custs = array();
 
@@ -135,7 +209,7 @@ class ControllerModuleNewsmanImport extends Controller
 
                 case "subscribers.json":
 
-                    $wp_subscribers = $this->getCustomers(true);
+                    $wp_subscribers = $this->getCustomers(array("start" => $start, "limit" => $limit, "filter_newsletter" => 1));
                     $subs = array();
 
                     foreach ($wp_subscribers as $users) {
@@ -151,6 +225,17 @@ class ControllerModuleNewsmanImport extends Controller
                     return;
 
                     break;
+                case "version.json":
+                    $version = array(
+                    "version" => "Opencart 2.x"
+                    );
+
+                    $this->response->addHeader('Content-Type: application/json');
+                            $this->response->setOutput(json_encode($version, JSON_PRETTY_PRINT));
+                    return;
+            
+                    break;
+
             }
         } else {
             $this->response->addHeader('Content-Type: application/json');
@@ -158,17 +243,27 @@ class ControllerModuleNewsmanImport extends Controller
         }
     }
 
-    public function getCustomers($newsletter = false)
+    public function getCustomers($data = array())
     {
-        $q = "SELECT * FROM " . DB_PREFIX . "customer";
+        $sql = "SELECT * from " . DB_PREFIX . "customer";
 
-        if ($newsletter) {
-            $q .= " WHERE newsletter = '1'";
+        if (isset($data['filter_newsletter']) && !is_null($data['filter_newsletter'])) {
+            $sql .= " WHERE newsletter = '" . (int)$data['filter_newsletter'] . "'";
         }
 
-        $q .= ';';
+        if (isset($data['start']) || isset($data['limit'])) {
+            if ($data['start'] < 0) {
+                $data['start'] = 0;
+            }
 
-        $query = $this->db->query($q);
+            if ($data['limit'] < 1) {
+                $data['limit'] = 20;
+            }
+
+            $sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
+        }
+
+        $query = $this->db->query($sql);
 
         return $query->rows;
     }
