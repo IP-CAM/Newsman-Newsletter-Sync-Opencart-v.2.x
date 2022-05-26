@@ -39,9 +39,34 @@ class ControllerModuleNewsmanImport extends Controller
                 $this->response->setOutput(json_encode("403 - sync unsuccessful, an error occurred or 1 hour didn't pass since last cron sync"));
                 return;
             }
-        } else {
+        }
+        elseif(!empty($_GET["newsman"]) && $_GET["newsman"] == "getCart.json")
+        {
+            $this->getCart();
+        } 
+        else {
             $this->newsmanFetchData($_apikey);
         }
+    }
+
+    public function getCart(){
+        $prod = array();
+        $cart = $this->cart->getProducts();
+        
+        foreach ( $cart as $cart_item_key => $cart_item ) {
+
+            $prod[] = array(
+                "id" => $cart_item['product_id'],
+                "name" => $cart_item["name"],
+                "price" => $cart_item["price"],
+                "quantity" => $cart_item['quantity']
+            );
+                                    
+         }
+        
+        $this->response->addHeader('Content-Type: application/json');
+        $this->response->setOutput(json_encode($prod, JSON_PRETTY_PRINT));        
+        return;
     }
 
     public function newsmanFetchData($_apikey)
