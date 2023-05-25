@@ -10,6 +10,7 @@ Manual installation:
 2.	Give priveleges to your user in admin->System->Users->User Groups
 3.  Go to admin->Extensions->Modules and then install Newsman Newsletter Sync module
 4.  After installation edit the Newsman Newsletter Sync module
+`{yoursiteurl}/index.php?route=module/newsman_import&newsman=products.json&apikey={yourapikey}`
 
 # Newsman Remarketing
 
