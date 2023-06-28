@@ -134,7 +134,7 @@
 									<input class="form-control" type="hidden" value="0" name="reset" id="reset"><br><br>
 									<a onclick="document.getElementById('reset').value = '1'; document.getElementById('import_list').checked = true; try_submit();"
 									   class="btn btn-default"><span><?php echo $button_reset; ?></span></a><br>
-									<p><?php echo $text_autosync; ?><br><a href="#">http://<?php echo $_SERVER['SERVER_NAME']; ?>/index.php?route=module/newsman_import</a></p>
+									<p><?php echo $text_autosync; ?><br><a href="#">http://<?php echo $_SERVER['SERVER_NAME']; ?>/index.php?route=module/newsman_import&cron=1&apikey={yourapikey}</a></p>
 								</div>
 								<?php } ?>
 							</div>
