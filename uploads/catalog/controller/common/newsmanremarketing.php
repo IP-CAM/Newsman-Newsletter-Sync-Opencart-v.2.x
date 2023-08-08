@@ -129,7 +129,7 @@ class ControllerCommonNewsmanremarketing extends Controller
 				var endpoint = 'https://retargeting.newsmanapp.com';
 				var remarketingEndpoint = endpoint + '/js/retargeting/track.js';
 				var remarketingid = '$tracking_id';
-				var _nzmPluginInfo = '1.3:opencart2.0.x';
+				var _nzmPluginInfo = '1.4:opencart2.0.x';
 				var _nzm = _nzm || [];
 				var _nzm_config = _nzm_config || [];
 				_nzm_config['disable_datalayer'] = 1;
@@ -284,10 +284,10 @@ class ControllerCommonNewsmanremarketing extends Controller
 									}
 								}
 								if (response.length > 0 && lastCartFlag == false) {
-									addToCart(response);
+									nzmAddToCart(response);
 								}//send only when on last request, products existed
 								else if (response.length == 0 && lastCart.length > 0 && unlockClearCart) {
-									clearCart();
+									nzmClearCart();
 									if (!isProd)
 										console.log('newsman remarketing: clear cart sent');
 								} else {
@@ -314,13 +314,13 @@ class ControllerCommonNewsmanremarketing extends Controller
 							console.log('newsman remarketing: !buffered xhr || first load');
 					}
 				}
-				function clearCart() {
+				function nzmClearCart() {
 					_nzm.run('ec:setAction', 'clear_cart');
 					_nzm.run('send', 'event', 'detail view', 'click', 'clearCart');
 					sessionStorage.setItem('lastCart', JSON.stringify([]));
 					unlockClearCart = false;
 				}
-				function addToCart(response) {
+				function nzmAddToCart(response) {
 					_nzm.run('ec:setAction', 'clear_cart');
 					if (!isProd)
 						console.log('newsman remarketing: clear cart sent, add to cart function');
@@ -366,10 +366,8 @@ class ControllerCommonNewsmanremarketing extends Controller
 							var timeDiff = msClickPassed.getTime() - msClick.getTime();
 							if (timeDiff > 1000) {
 								validate = false;
-								console.log('time over 1 sec');
 							} else {
 								timeValidate = true;
-								console.log('time under 1 sec');
 							}
 							var _location = pointer.responseURL;
 							//own request exclusion
@@ -598,7 +596,7 @@ TAG;
 					var endpoint = 'https://retargeting.newsmanapp.com';
 					var remarketingEndpoint = endpoint + '/js/retargeting/track.js';
 					var remarketingid = '$tracking_id';
-					var _nzmPluginInfo = '1.3:opencart2.0.x';
+					var _nzmPluginInfo = '1.4:opencart2.0.x';
 					var _nzm = _nzm || [];
 					var _nzm_config = _nzm_config || [];
 					_nzm_config['disable_datalayer'] = 1;
@@ -626,7 +624,7 @@ TAG;
 					//Newsman remarketing tracking code
 		
 					//Newsman remarketing auto events
-	
+
 					var isProd = false;
 					let lastCart = sessionStorage.getItem('lastCart');
 					if (lastCart === null)
@@ -753,10 +751,10 @@ TAG;
 										}
 									}
 									if (response.length > 0 && lastCartFlag == false) {
-										addToCart(response);
+										nzmAddToCart(response);
 									}//send only when on last request, products existed
 									else if (response.length == 0 && lastCart.length > 0 && unlockClearCart) {
-										clearCart();
+										nzmClearCart();
 										if (!isProd)
 											console.log('newsman remarketing: clear cart sent');
 									} else {
@@ -783,13 +781,13 @@ TAG;
 								console.log('newsman remarketing: !buffered xhr || first load');
 						}
 					}
-					function clearCart() {
+					function nzmClearCart() {
 						_nzm.run('ec:setAction', 'clear_cart');
 						_nzm.run('send', 'event', 'detail view', 'click', 'clearCart');
 						sessionStorage.setItem('lastCart', JSON.stringify([]));
 						unlockClearCart = false;
 					}
-					function addToCart(response) {
+					function nzmAddToCart(response) {
 						_nzm.run('ec:setAction', 'clear_cart');
 						if (!isProd)
 							console.log('newsman remarketing: clear cart sent, add to cart function');
@@ -835,10 +833,8 @@ TAG;
 								var timeDiff = msClickPassed.getTime() - msClick.getTime();
 								if (timeDiff > 1000) {
 									validate = false;
-									console.log('time over 1 sec');
 								} else {
 									timeValidate = true;
-									console.log('time under 1 sec');
 								}
 								var _location = pointer.responseURL;
 								//own request exclusion
