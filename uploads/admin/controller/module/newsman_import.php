@@ -121,6 +121,8 @@ class ControllerModuleNewsmanImport extends Controller
 		$this->load->model('setting/setting');
 		$this->load->model('module/newsman_import');
 
+		$this->isOauth($data);
+
 		$data['step'] = 1;
 
 		if ($this->request->server['REQUEST_METHOD'] == 'POST')
@@ -293,8 +295,10 @@ class ControllerModuleNewsmanImport extends Controller
 		$data['text_customer_group'] = "import in";
 
 		//$data['breadcrumbs'] = $this->load->controller('common/breadcrumbs');
-		$this->response->setOutput($this->load->view('module/' . $this->_name . '.tpl', $data));
 
+		$this->isOauth($data);
+
+		$this->response->setOutput($this->load->view('module/' . $this->_name . '.tpl', $data));
 
 		/*	$this->children = array(
 				'common/header',
@@ -302,6 +306,145 @@ class ControllerModuleNewsmanImport extends Controller
 			);
 	*/
 		// $this->response->setOutput($this->load->view('catalog/category_form.tpl', $data));
+	}
+
+	public function isOauth(&$data, $checkOnlyIsOauth = false){
+		$this->load->model('setting/setting');
+		$this->load->model('module/newsman_import');
+
+		$redirUri = urlencode("https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
+		$redirUri = str_replace("amp%3B", "", $redirUri);
+		$data["oauthUrl"] = "https://newsman.app/admin/oauth/authorize?response_type=code&client_id=nzmplugin&nzmplugin=Opencart&scope=api&redirect_uri=" . $redirUri;
+
+		//oauth processing
+
+		$error = "";
+		$dataLists = array();
+		$data["oauthStep"] = 1;
+		$viewState = array();
+
+		if(!empty($_GET["error"])){
+			switch($error){
+				case "access_denied":
+					$error = "Access is denied";
+					break;
+				case "missing_lists":
+					$error = "There are no lists in your NewsMAN account";
+					break;
+			}
+		}else if(!empty($_GET["code"])){
+
+			$authUrl = "https://newsman.app/admin/oauth/token";
+
+			$code = $_GET["code"];
+
+			$redirect = "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+
+			$body = array(
+				"grant_type" => "authorization_code",
+				"code" => $code,
+				"client_id" => "nzmplugin",
+				"redirect_uri" => $redirect
+			);
+			
+			$ch = curl_init($authUrl);
+			
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+			curl_setopt($ch, CURLOPT_POST, 1);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
+			
+			$response = curl_exec($ch);
+			
+			if (curl_errno($ch)) {
+				$error .= 'cURL error: ' . curl_error($ch);
+			}
+			
+			curl_close($ch);
+			
+			if ($response !== false) {
+
+				$response = json_decode($response);
+
+				$data["creds"] = json_encode(array(
+					"newsman_userid" => $response->user_id,
+					"newsman_apikey" => $response->access_token
+					)
+				);
+
+				foreach($response->lists_data as $list => $l){
+					$dataLists[] = array(
+						"id" => $l->list_id,
+						"name" => $l->name
+					);
+				}	
+
+				$data["dataLists"] = $dataLists;
+
+				$data["oauthStep"] = 2;
+			} else {
+				$error .= "Error sending cURL request.";
+			}  
+		}
+
+		if(!empty($_POST["oauthstep2"]) && $_POST['oauthstep2'] == 'Y')
+		{
+			if(empty($_POST["newsman_list"]) || $_POST["newsman_list"] == 0)
+			{
+				$step = 1;
+			}
+			else
+			{
+				$creds = stripslashes($_POST["creds"]);
+				$creds = html_entity_decode($creds);
+				$creds = json_decode($creds, true);
+
+				$this->load->model('module/newsman_import');
+				$client = $this->model_module_newsman_import->getNewsmanClient($creds["newsman_userid"], $creds["newsman_apikey"]);
+				$ret = $client->remarketing->getSettings($_POST["newsman_list"]);
+
+				$remarketingId = $ret["site_id"] . "-" . $ret["list_id"] . "-" . $ret["form_id"] . "-" . $ret["control_list_hash"];
+
+				//set feed
+				$url = "https://" . $_SERVER['SERVER_NAME'] . "/index.php?route=module/newsman_import&newsman=products.json&apikey=" . $creds["newsman_apikey"];		
+
+				try{
+					$ret = $client->feeds->setFeedOnList($_POST["newsman_list"], $url, $_SERVER['SERVER_NAME'], "NewsMAN");	
+				}
+				catch(Exception $ex)
+				{			
+					//the feed already exists
+				}
+
+				$settings = (array) $this->model_setting_setting->getSetting($this->_name);
+				$settings['list_id'] = $_POST["newsman_list"];
+				$settings['api_key'] = $creds["newsman_apikey"];
+				$settings['user_id'] = $creds["newsman_userid"];
+
+				$this->insertSetting($this->_name, $settings);
+
+				$settings = [
+					"analytics_newsmanremarketing" . '_register' => "newsmanremarketing",
+					"analytics_newsmanremarketing" . '_trackingid' => $remarketingId
+				];
+	
+				$settingsStatus = [
+					'newsmanremarketing' . '_status' => 1
+				];
+			
+				$this->model_setting_setting->editSetting("analytics_newsmanremarketing", $settings);
+				$this->model_setting_setting->editSetting("newsmanremarketing", $settingsStatus);
+			}
+		}
+
+		$settings = (array) $this->model_setting_setting->getSetting($this->_name);
+
+		if(empty($settings['api_key']))
+		{
+			$data["isOauth"] = true;
+		}
+		else{
+			$data["isOauth"] = false;
+		}
 	}
 
 	/**

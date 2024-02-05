@@ -119,6 +119,12 @@ class ModelModuleNewsmanImport extends Model
 		}
 	}
 
+	public function getNewsmanClient($userId, $apiKey){
+		require_once("../lib/Newsman/Client.php");
+		$client = new Newsman_Client($userId, $apiKey);
+		return $client;
+	}
+
 	/**
 	 * Get segments
 	 *
