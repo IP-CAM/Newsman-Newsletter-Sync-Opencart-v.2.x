@@ -37,55 +37,55 @@ To enable automatic synchronization, set up a webcron to run the URL shown in yo
 
 Description<br>
 Optimize Your Marketing with NewsMAN Plugin for Opencart 2.x:<br>
-Take charge of your email and SMS marketing campaigns with the dynamic NewsMAN Plugin. Efficiently handle subscription forms, contact lists, newsletters, campaigns, SMS features, automations, and detailed analytics within the NewsMAN platform.
+Take charge of your email and SMS marketing campaigns with the dynamic NewsMAN Plugin. Efficiently handle subscription forms, contact lists, newsletters, campaigns, SMS features, automations, and detailed analytics within the NewsMAN platform.<br>
 
 Craft Engaging Subscription Experiences<br>
 Visually Capture Interest:<br>
-Formulate visually captivating subscription forms and pop-ups, such as embedded newsletter signups or exit-intent popups, strategically capturing potential leads before their departure.
+Formulate visually captivating subscription forms and pop-ups, such as embedded newsletter signups or exit-intent popups, strategically capturing potential leads before their departure.<br>
 Tailor with Appeal:<br>
-Customize forms with compelling visuals and user-friendly designs to effectively attract and engage visitors.
+Customize forms with compelling visuals and user-friendly designs to effectively attract and engage visitors.<br>
 Consistency Across Platforms:<br>
-Ensure a uniform user experience across diverse platforms by synchronizing forms, preserving brand consistency.
+Ensure a uniform user experience across diverse platforms by synchronizing forms, preserving brand consistency.<br>
 Automate with Workflows:<br>
-Seamlessly integrate subscription forms with automated workflows, activating welcome emails or specific responses upon form submissions.
+Seamlessly integrate subscription forms with automated workflows, activating welcome emails or specific responses upon form submissions.<br>
 
 Effortless Contact Lists & Segmentation<br>
 Streamlined Import Sync:<br>
-Automate the import and synchronization of contact lists from varied sources, simplifying data management with minimal intervention.
+Automate the import and synchronization of contact lists from varied sources, simplifying data management with minimal intervention.<br>
 Advanced Segmentation Strategies:<br>
-Leverage sophisticated segmentation methods based on demographics or user behavior to efficiently target specific audience segments.
+Leverage sophisticated segmentation methods based on demographics or user behavior to efficiently target specific audience segments.<br>
 
 Email & SMS Marketing Campaigns<br>
 Effortless Broadcasts Campaigns:<br>
-Easily dispatch newsletters or promotional offers to a broad subscriber base, keeping your audience engaged with regular updates on new offerings.
+Easily dispatch newsletters or promotional offers to a broad subscriber base, keeping your audience engaged with regular updates on new offerings.<br>
 Tailored & Personalized Touch:<br>
-Customize campaigns to resonate individually with subscribers by personalizing content, addressing subscribers by name, or suggesting products aligned with their preferences.
+Customize campaigns to resonate individually with subscribers by personalizing content, addressing subscribers by name, or suggesting products aligned with their preferences.<br>
 Re-engage Through Resends:<br>
-Effectively re-engage subscribers by resending campaigns to those who haven't opened the initial email, modifying content to enhance interaction and broaden your reach.
+Effectively re-engage subscribers by resending campaigns to those who haven't opened the initial email, modifying content to enhance interaction and broaden your reach.<br>
 Experiment with A/B Variations:<br>
-Enhance campaign performance through A/B tests, experimenting with subject lines, content formats, or visuals to identify the most effective strategies.
+Enhance campaign performance through A/B tests, experimenting with subject lines, content formats, or visuals to identify the most effective strategies.<br>
 Streamlined Automation:<br>
-Optimize campaign performance through experimentation with various elements, identifying the most effective strategies for heightened efficiency.
+Optimize campaign performance through experimentation with various elements, identifying the most effective strategies for heightened efficiency.<br>
 
 Email & SMS Automated Marketing Flows<br>
 E-commerce & Beyond Automation:<br>
-Automate personalized product suggestions or follow-up emails based on user behavior, enhancing user engagement and providing tailored experiences.
+Automate personalized product suggestions or follow-up emails based on user behavior, enhancing user engagement and providing tailored experiences.<br>
 Addressing Cart Abandonment & Showcasing Products:<br>
-Strategically tackle cart abandonment or showcase related products to encourage users to finalize their purchase journey.
+Strategically tackle cart abandonment or showcase related products to encourage users to finalize their purchase journey.<br>
 Post-Purchase Interaction:<br>
-Gather post-purchase feedback to strengthen relationships and refine products/services based on valuable testimonials, bolstering customer satisfaction.
+Gather post-purchase feedback to strengthen relationships and refine products/services based on valuable testimonials, bolstering customer satisfaction.<br>
 Comprehensive Workflow Design:<br>
-Develop extensive workflows triggered by specific user actions, guiding users through various touchpoints in their journey for a seamless user experience.
+Develop extensive workflows triggered by specific user actions, guiding users through various touchpoints in their journey for a seamless user experience.<br>
 Revitalize E-commerce Remarketing:<br>
 Precision Targeting:<br>
-Reconnect with subscribers by sending precisely targeted offers or reminders based on their past interactions, amplifying the effectiveness of re-engagement strategies.
+Reconnect with subscribers by sending precisely targeted offers or reminders based on their past interactions, amplifying the effectiveness of re-engagement strategies.<br>
 Personalized Communication:<br>
-Personalize interactions with exclusive offers or reminders based on users' behavior or preferences, fostering a sense of exclusivity and engagement.
+Personalize interactions with exclusive offers or reminders based on users' behavior or preferences, fostering a sense of exclusivity and engagement.<br>
 
 Efficient SMTP Transactional Emails<br>
 Timely & Trustworthy Delivery:<br>
-Ensure the timely and trustworthy delivery of critical messages, such as order confirmations or shipping notifications, through SMTP.
+Ensure the timely and trustworthy delivery of critical messages, such as order confirmations or shipping notifications, through SMTP.<br>
 
 In-Depth Email and SMS Insights<br>
 Holistic Performance Analysis:<br>
-Gain holistic insights into open rates, click-through rates, conversion rates, and overall campaign performance for data-driven decision-making and refining future campaigns.
+Gain holistic insights into open rates, click-through rates, conversion rates, and overall campaign performance for data-driven decision-making and refining future campaigns.<br>
