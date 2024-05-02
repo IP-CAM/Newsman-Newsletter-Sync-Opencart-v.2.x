@@ -1,6 +1,6 @@
 # OpenCart 2 - Newsman Newsletter Sync
 
-Use the NewsMAN plugin for OpenCart 2 to sync your customers and subscribers with [Newsman](https://www.newsman.com) lists and segments. It's the simplest method to link your shop to NewsMAN. Just create an API KEY in your NewsMAN account, install the plugin, and start syncing your ecommerce data to your email marketing platform.
+Use the NewsMAN plugin for OpenCart 2 to sync your customers and subscribers with [NewsMAN](https://www.newsman.com) lists and segments. It's the simplest method to link your shop to NewsMAN. Just create an API KEY in your NewsMAN account, install the plugin, and start syncing your ecommerce data to your email marketing platform.
 
 ![image](https://raw.githubusercontent.com/Newsman/OpenCart2-Newsman/master/assets/newsmanBr.jpg)
 
