@@ -36,10 +36,12 @@ Fill in your Remarketing ID from your NewsMAN account under Settings -> Remarket
 To enable automatic synchronization, set up a webcron to run the URL shown in your NewsMAN settings.
 
 Description<br>
+
 Optimize Your Marketing with NewsMAN Plugin for Opencart 2.x:<br>
 Take charge of your email and SMS marketing campaigns with the dynamic NewsMAN Plugin. Efficiently handle subscription forms, contact lists, newsletters, campaigns, SMS features, automations, and detailed analytics within the NewsMAN platform.<br>
 
 Craft Engaging Subscription Experiences<br>
+
 Visually Capture Interest:<br>
 Formulate visually captivating subscription forms and pop-ups, such as embedded newsletter signups or exit-intent popups, strategically capturing potential leads before their departure.<br>
 Tailor with Appeal:<br>
@@ -50,12 +52,14 @@ Automate with Workflows:<br>
 Seamlessly integrate subscription forms with automated workflows, activating welcome emails or specific responses upon form submissions.<br>
 
 Effortless Contact Lists & Segmentation<br>
+
 Streamlined Import Sync:<br>
 Automate the import and synchronization of contact lists from varied sources, simplifying data management with minimal intervention.<br>
 Advanced Segmentation Strategies:<br>
 Leverage sophisticated segmentation methods based on demographics or user behavior to efficiently target specific audience segments.<br>
 
 Email & SMS Marketing Campaigns<br>
+
 Effortless Broadcasts Campaigns:<br>
 Easily dispatch newsletters or promotional offers to a broad subscriber base, keeping your audience engaged with regular updates on new offerings.<br>
 Tailored & Personalized Touch:<br>
@@ -68,6 +72,7 @@ Streamlined Automation:<br>
 Optimize campaign performance through experimentation with various elements, identifying the most effective strategies for heightened efficiency.<br>
 
 Email & SMS Automated Marketing Flows<br>
+
 E-commerce & Beyond Automation:<br>
 Automate personalized product suggestions or follow-up emails based on user behavior, enhancing user engagement and providing tailored experiences.<br>
 Addressing Cart Abandonment & Showcasing Products:<br>
@@ -83,9 +88,11 @@ Personalized Communication:<br>
 Personalize interactions with exclusive offers or reminders based on users' behavior or preferences, fostering a sense of exclusivity and engagement.<br>
 
 Efficient SMTP Transactional Emails<br>
+
 Timely & Trustworthy Delivery:<br>
 Ensure the timely and trustworthy delivery of critical messages, such as order confirmations or shipping notifications, through SMTP.<br>
 
 In-Depth Email and SMS Insights<br>
+
 Holistic Performance Analysis:<br>
 Gain holistic insights into open rates, click-through rates, conversion rates, and overall campaign performance for data-driven decision-making and refining future campaigns.<br>
