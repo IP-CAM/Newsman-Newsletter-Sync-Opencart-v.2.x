@@ -26,6 +26,10 @@ class ControllerModuleNewsmanImport extends Controller
             if (strpos($authorizationHeader, 'Bearer') !== false) {
                 $apikey = trim(str_replace('Bearer', '', $authorizationHeader));
             }
+            if(empty($apikey))
+            {
+                $apikey = empty($_POST['nzmhash']) ? '' : $_POST['nzmhash'];
+            }            
 
             if ($apikey != $_apikey) {
                 $this->response->addHeader('Content-Type: application/json');
@@ -76,11 +80,19 @@ class ControllerModuleNewsmanImport extends Controller
     public function newsmanFetchData($_apikey)
     {
         $apikey = (empty($_GET["nzmhash"])) ? "" : $_GET["nzmhash"];
+        if(empty($apikey))
+        {
+            $apikey = empty($_POST['nzmhash']) ? '' : $_POST['nzmhash'];
+        }        
         $authorizationHeader = isset($_SERVER['HTTP_AUTHORIZATION']) ? $_SERVER['HTTP_AUTHORIZATION'] : '';
         if (strpos($authorizationHeader, 'Bearer') !== false) {
             $apikey = trim(str_replace('Bearer', '', $authorizationHeader));
         }
         $newsman = (empty($_GET["newsman"])) ? "" : $_GET["newsman"];
+        if(empty($newsman))
+        {
+            $newsman = empty($_POST['newsman']) ? '' : $_POST['newsman'];
+        }        
         $productId = (empty($_GET["product_id"])) ? "" : $_GET["product_id"];
         $orderId = (empty($_GET["order_id"])) ? "" : $_GET["order_id"];
         $start = (!empty($_GET["start"]) && $_GET["start"] >= 0) ? $_GET["start"] : 1;
